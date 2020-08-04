@@ -1,32 +1,46 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Display extends Canvas{
+class Display {
 
-    JFrame frame;
-    Canvas canvas;
-    Graphics g;
-    int framerate;
+    private JFrame frame;
+    private Canvas canvas;
 
-    public Display(int width, int height, int framerate) {
-        this.framerate = framerate;
-        frame = new JFrame("Pong");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    private String title;
+    private int width, height;
+
+    public Display(int width, int height, String title) {
+        this.title = title;
+        this.width = width;
+        this.height = height;
+
+        createDisplay();
+    }
+
+    private void createDisplay() {
+        frame = new JFrame(title);
+        frame.setSize(width, height);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        Canvas canvas = this;
-        canvas.setSize(width, height);
-        canvas.setBackground(Color.black);
-        frame.add(canvas);
-        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+        canvas = new Canvas();
+        canvas.setPreferredSize(new Dimension(width, height));
+        canvas.setMaximumSize(new Dimension(width, height));
+        canvas.setMinimumSize(new Dimension(width, height));
+        canvas.setFocusable(false);
+
+        frame.add(canvas);
+        frame.pack();
     }
 
-    int i = 0;
-
-    public void paint(Graphics g) {
-        i++;
-        g.setColor(Color.red);
-        g.fillRect(0 + i, 0 + i, 30, 30);
+    public Canvas getCanvas() {
+        return canvas;
     }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
 }
