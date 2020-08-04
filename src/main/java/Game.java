@@ -1,3 +1,5 @@
+import States.State;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -23,10 +25,24 @@ class Game implements Runnable {
 
     private void tick() {
 
+        if (State.getState() != null) {
+            State.getState().tick();
+        }
     }
 
     private void render() {
+        bs = display.getCanvas().getBufferStrategy();
+        if (bs == null) {
+            display.getCanvas().createBufferStrategy(3);
+            return;
+        }
+        g = bs.getDrawGraphics();
 
+        g.clearRect(0, 0, width, height);
+
+        if (State.getState() != null) {
+            State.getState().render(g);
+        }
     }
 
     private void init() {
