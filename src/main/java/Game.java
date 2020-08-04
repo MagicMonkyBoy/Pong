@@ -4,6 +4,7 @@ import java.awt.image.BufferStrategy;
 class Game implements Runnable {
 
     Display display;
+    Handler handler;
 
     private boolean running = false;
     Thread thread;
@@ -30,6 +31,7 @@ class Game implements Runnable {
 
     private void init() {
         display = new Display(width, height, name);
+        handler = new Handler(this);
 
     }
 

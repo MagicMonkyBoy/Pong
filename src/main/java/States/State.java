@@ -1,4 +1,7 @@
 package States;
 
-public class State {
+public abstract class State {
+
+
+
 }
