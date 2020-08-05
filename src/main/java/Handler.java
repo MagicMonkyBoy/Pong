@@ -13,4 +13,7 @@ public class Handler {
         return game.getHeight();
     }
 
+    public MouseManager getMouseManager() {
+        return game.getMouseManager();
+    }
 }

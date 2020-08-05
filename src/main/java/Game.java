@@ -17,10 +17,13 @@ class Game implements Runnable {
 
     MenuState menuState;
 
+    private MouseManager mouseManager;
+
     public Game(int width, int height, String name) {
         this.width = width;
         this.height = height;
         this.name = name;
+        mouseManager = new MouseManager();
     }
 
     private void tick() {
@@ -52,6 +55,11 @@ class Game implements Runnable {
     private void init() {
         display = new Display(width, height, name);
         handler = new Handler(this);
+
+        display.getFrame().addMouseListener(mouseManager);
+        display.getFrame().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
 
         menuState = new MenuState(handler);
 
@@ -109,6 +117,10 @@ class Game implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public MouseManager getMouseManager() {
+        return mouseManager;
     }
 
     public int getWidth() {
