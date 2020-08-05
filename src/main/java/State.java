@@ -1,7 +1,4 @@
-package States;
-
 import java.awt.*;
-import
 
 public abstract class State {
 

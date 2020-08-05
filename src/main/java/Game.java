@@ -1,5 +1,3 @@
-import States.State;
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -17,6 +15,8 @@ class Game implements Runnable {
     BufferStrategy bs;
     Graphics g;
 
+    MenuState menuState;
+
     public Game(int width, int height, String name) {
         this.width = width;
         this.height = height;
@@ -32,6 +32,7 @@ class Game implements Runnable {
 
     private void render() {
         bs = display.getCanvas().getBufferStrategy();
+        State.setState(menuState);
         if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
             return;
@@ -43,11 +44,16 @@ class Game implements Runnable {
         if (State.getState() != null) {
             State.getState().render(g);
         }
+
+        bs.show();
+        g.dispose();
     }
 
     private void init() {
         display = new Display(width, height, name);
         handler = new Handler(this);
+
+        menuState = new MenuState(handler);
 
     }
 
