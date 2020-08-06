@@ -2,29 +2,25 @@ import java.awt.*;
 
 public class MenuState extends State {
 
+    UIManager uiManager;
+
     Handler handler;
 
     public MenuState(Handler handler) {
         super(handler);
         this.handler = handler;
+        uiManager = new UIManager(handler);
     }
 
-    int x = 0, y = 0;
-
     public void render(Graphics g) {
-
-        if (handler.getMouseManager().isLeftPressed()) {
-            g.setColor(Color.RED);
-        } else if (handler.getMouseManager().isRightPressed()) {
-            g.setColor(Color.BLUE);
-        } else {
-            g.setColor(Color.GREEN);
-        }
-        g.fillRect(x - 100, y - 100, 200, 200);
+        uiManager.render(g);
     }
 
     public void tick() {
-        x = handler.getMouseManager().getMouseX();
-        y = handler.getMouseManager().getMouseY();
+        uiManager.tick();
+    }
+
+    public UIManager getUIManager() {
+        return uiManager;
     }
 }
