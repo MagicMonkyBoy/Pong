@@ -40,12 +40,24 @@ public class UIManager {
         objects.add(o);
     }
 
-    public void removeObject() {
-
+    public void removeObject(UIObjects o) {
+        objects.remove(o);
     }
 
     public Handler getHandler() {
         return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public ArrayList<UIObjects> getObjects() {
+        return objects;
+    }
+
+    public void setObjects(ArrayList<UIObjects> objects) {
+        this.objects = objects;
     }
 
 }
