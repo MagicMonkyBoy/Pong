@@ -3,19 +3,20 @@ import java.awt.image.BufferStrategy;
 
 class Game implements Runnable {
 
-    Display display;
-    Handler handler;
+    private Display display;
+    private Handler handler;
 
     private boolean running = false;
-    Thread thread;
+    private Thread thread;
 
     private int width, height;
     private String name;
 
-    BufferStrategy bs;
-    Graphics g;
+    private BufferStrategy bs;
+    private Graphics g;
 
-    MenuState menuState;
+    public MenuState menuState;
+    public GameState gameState;
 
     private MouseManager mouseManager;
 
@@ -27,7 +28,6 @@ class Game implements Runnable {
     }
 
     private void tick() {
-
         if (State.getState() != null) {
             State.getState().tick();
         }
@@ -35,7 +35,7 @@ class Game implements Runnable {
 
     private void render() {
         bs = display.getCanvas().getBufferStrategy();
-        State.setState(menuState);
+
         if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
             return;
@@ -62,7 +62,7 @@ class Game implements Runnable {
         display.getCanvas().addMouseMotionListener(mouseManager);
 
         menuState = new MenuState(handler);
-
+        State.setState(menuState);
     }
 
     public void run() {

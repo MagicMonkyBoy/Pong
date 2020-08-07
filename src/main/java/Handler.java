@@ -16,4 +16,8 @@ public class Handler {
     public MouseManager getMouseManager() {
         return game.getMouseManager();
     }
+
+    public Game getGame() {
+        return game;
+    }
 }

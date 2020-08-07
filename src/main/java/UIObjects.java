@@ -16,6 +16,7 @@ public abstract class UIObjects {
         this.height = height;
         this.handler = handler;
 
+        bounds = new Rectangle((int)x, (int)y, width, height);
     }
 
     public abstract void tick();
