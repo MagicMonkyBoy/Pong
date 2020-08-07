@@ -7,6 +7,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     private boolean leftPressed, rightPressed;
     private int mouseX, mouseY;
     private UIManager uiManager;
+    private GameObjectManager gameObjectManager;
 
     public MouseManager() {
 
@@ -14,6 +15,9 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
     public void setUIManager(UIManager uiManager) {
         this.uiManager = uiManager;
+    }
+    public void setGameObjectManager(GameObjectManager gameObjectManager) {
+        this.gameObjectManager = gameObjectManager;
     }
 
     public boolean isLeftPressed() {
@@ -76,6 +80,10 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         if (uiManager != null) {
             uiManager.onMouseMove(e);
+        }
+        if (gameObjectManager != null) {
+            gameObjectManager.onMouseMove(e);
+            //System.out.println("MOUSE MOVING GAME OBJECTS");
         }
 
         mouseX = e.getX();

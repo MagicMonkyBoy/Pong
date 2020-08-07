@@ -4,11 +4,9 @@ public class MenuState extends State {
 
     UIManager uiManager;
 
-    Handler handler;
     TextButton test;
     public MenuState(final Handler handler) {
         super(handler);
-        this.handler = handler;
         uiManager = new UIManager(handler);
         handler.getMouseManager().setUIManager(uiManager);
 
@@ -16,9 +14,9 @@ public class MenuState extends State {
          test =  new TextButton(handler.getWidth()/2 - 100, handler.getHeight()/2 - 50, 200, 50, handler, Color.WHITE, new ClickListener() {
             public void onClick() {
                 System.out.println("HELLO button works");
-                State.setState(handler.getGame().gameState);
+                State.setState(new GameState(handler));
             }
-        });
+        }, this);
          test.setText("Start", Color.BLACK);
          test.setHoverButtonColor(Color.LIGHT_GRAY);
         uiManager.addObject(test);

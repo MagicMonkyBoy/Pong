@@ -26,13 +26,19 @@ public class UIManager {
 
     public void onMouseMove(MouseEvent e) {
         for (UIObjects o: objects) {
-            o.onMouseMove(e);
+            if (o.state == State.getState()) {
+                o.onMouseMove(e);
+            }
+
         }
     }
 
     public void onMouseRelease(MouseEvent e) {
         for (UIObjects o: objects) {
-            o.onMouseRelease(e);
+            if (o.state == State.getState()) {
+                o.onMouseRelease(e);
+            }
+
         }
     }
 

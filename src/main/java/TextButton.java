@@ -10,8 +10,8 @@ public class TextButton extends UIObjects {
     private ClickListener clickListener;
     private boolean setHover = false;
 
-    public TextButton(float x, float y, int width, int height, Handler handler, Color buttonColor, ClickListener clickListener) {
-        super(x, y, width, height, handler);
+    public TextButton(float x, float y, int width, int height, Handler handler, Color buttonColor, ClickListener clickListener, State state) {
+        super(x, y, width, height, handler, state);
 
         this.buttonColor = buttonColor;
         this.clickListener = clickListener;
