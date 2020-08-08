@@ -30,6 +30,8 @@ public class Ball extends GameObjects {
 
         x += speed * Math.cos(angle * (Math.PI/180));
         y -= speed * Math.sin(angle * (Math.PI/180));
+
+        bounds.setBounds((int) x, (int) y, width, height);
     }
 
     public void render(Graphics g) {
@@ -40,8 +42,8 @@ public class Ball extends GameObjects {
         }
         g.fillOval((int) x, (int) y, width, height);
 
-//        g.setColor(Color.RED);
-//        g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+        g.setColor(Color.RED);
+        g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 
     }
 
@@ -52,6 +54,13 @@ public class Ball extends GameObjects {
     public void setColor(Color color) {
         this.color = color;
         hasColor = true;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 
 }
