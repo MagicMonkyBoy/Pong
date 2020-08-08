@@ -6,6 +6,7 @@ public abstract class GameObjects {
     protected float x, y;
     protected int width, height;
     protected State state;
+    protected Rectangle bounds;
     Handler handler;
 
     public GameObjects (float x, float y, int width, int height, Handler handler, State state) {

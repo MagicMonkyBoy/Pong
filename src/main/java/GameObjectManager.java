@@ -40,4 +40,8 @@ public class GameObjectManager {
             }
         }
     }
+
+    public ArrayList<GameObjects> getGameObjects() {
+        return gameObjects;
+    }
 }
