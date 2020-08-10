@@ -14,8 +14,12 @@ public class CollisionDetector {
     public void tick() {
         for (GameObjects go1: colliderGameObjects) {
             for (GameObjects go2: colliderGameObjects) {
-                if (!go1.equals(go2) && go1.bounds.intersects(go2.bounds)) {
-                    collisionListener.collision(go1, go2);
+                try {
+                    if (!go1.equals(go2) && go1.bounds.intersects(go2.bounds)) {
+                        collisionListener.collision(go1, go2);
+                    }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
         }

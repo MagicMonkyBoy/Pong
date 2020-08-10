@@ -6,6 +6,7 @@ public class GameState extends State{
     private Paddle leftPaddle, rightPaddle;
     private Ball ball;
     private CollisionDetector collisionDetector;
+    private InvisableColliders topBoundry, bottomBoundry;
 
     public GameState (Handler handler) {
         super(handler);
@@ -31,9 +32,12 @@ public class GameState extends State{
         gameObjectManager.addGameObject(rightPaddle);
 
 
-        ball = new Ball(handler.getWidth()/2 - 10, handler.getHeight()/2 - 10, 20, 20, handler, this, 4, 0);
+        ball = new Ball(handler.getWidth()/2 - 10, handler.getHeight()/2 - 10, 20, 20, handler, this, 4, 30);
         ball.setColor(Color.white);
         gameObjectManager.addGameObject(ball);
+
+        topBoundry = new InvisableColliders(0, -1, handler.getWidth(), 1, handler, this);
+        gameObjectManager.addGameObject(topBoundry);
 
         collisionDetector = new CollisionDetector(handler, new CollisionListener() {
             public void collision(GameObjects collider, GameObjects collidee) {
@@ -49,6 +53,7 @@ public class GameState extends State{
         collisionDetector.addGameObject(ball);
         collisionDetector.addGameObject(leftPaddle);
         collisionDetector.addGameObject(rightPaddle);
+        //collisionDetector.addGameObject(topBoundry);
     }
 
 
