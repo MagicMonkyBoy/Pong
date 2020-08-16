@@ -112,11 +112,7 @@ class Game implements Runnable {
             return;
         }
         running = false;
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.exit(0);
     }
 
     public MouseManager getMouseManager() {

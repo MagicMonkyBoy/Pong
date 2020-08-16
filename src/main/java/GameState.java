@@ -6,7 +6,7 @@ public class GameState extends State{
     private Paddle leftPaddle, rightPaddle;
     private Ball ball;
     private CollisionDetector collisionDetector;
-    private InvisableColliders topBoundry, bottomBoundry;
+    private float maxAngle = 180; // IN DEGREES
 
     public GameState (final Handler handler) {
         super(handler);
@@ -32,7 +32,7 @@ public class GameState extends State{
         gameObjectManager.addGameObject(rightPaddle);
 
 
-        ball = new Ball(handler.getWidth()/2 - 10, handler.getHeight()/2 - 10, 20, 20, handler, this, 4, 30);
+        ball = new Ball(handler.getWidth()/2 - 10, handler.getHeight()/2 - 10, 20, 20, handler, this, 10, 1);
         ball.setColor(Color.white);
         gameObjectManager.addGameObject(ball);
 
@@ -40,21 +40,53 @@ public class GameState extends State{
 //        gameObjectManager.addGameObject(topBoundry);
 
         collisionDetector = new CollisionDetector(handler, new CollisionListener() {
+
+            //OBJECT COLLISION
             public void collision(GameObjects collider, GameObjects collidee) {
                 //System.out.println("Collision");
+
+
+                //BALL TRAVELLING LEFTWARDS
                 if (collider.equals(ball) && collidee.equals(leftPaddle) && (ball.getAngle() > 90 || ball.getAngle() < 270)) {
-                    ball.setAngle(180 - ball.getAngle());
+                    //System.out.println("Left");
+                    //BALL GOING UP
+                    if (ball.getAngle() < 180) {
+                        double dif = collidee.bounds.getCenterY() - ball.bounds.getCenterY();
+                        ball.setAngle((maxAngle*Math.abs(dif))/collidee.getHeight()/2);
+                    }
+                    //BALL GOING DOWN
+                    if (ball.getAngle() > 180) {
+                        double dif = collidee.bounds.getCenterY() - ball.bounds.getCenterY();
+                        ball.setAngle((maxAngle*-1*Math.abs(dif))/collidee.getHeight()/2);
+                    }
+
+                    //ball.setAngle(180 - ball.getAngle());
                 }
+                //BALL TRAVELLING RIGHTWARDS
                 if (collider.equals(ball) && collidee.equals(rightPaddle) && (ball.getAngle() < 90 || ball.getAngle() > 270)) {
-                    ball.setAngle(180 - ball.getAngle());
+                    //System.out.println("Right");
+                    //BALL GOING UP
+                    if (ball.getAngle() < 90) {
+                        double dif = collidee.bounds.getCenterY() - ball.bounds.getCenterY();
+                        ball.setAngle(180 - ((maxAngle*Math.abs(dif))/collidee.getHeight()/2));
+                    }
+                    //BALL GOING DOWN
+                    if (ball.getAngle() > 270) {
+                        double dif = collidee.bounds.getCenterY() - ball.bounds.getCenterY();
+                        ball.setAngle(180 - ((maxAngle*-1*Math.abs(dif))/collidee.getHeight()/2));
+                    }
+                    //ball.setAngle(180 - ball.getAngle());
                 }
             }
 
+            //OUT OF SCREEN
             public void collision(GameObjects collider, String compassDirection) {
                 //System.out.println("OFF SCREEN");
                 if (collider.equals(ball)) {
                     if (compassDirection.equals("NORTH") || compassDirection.equals("SOUTH")) {
                         ball.setAngle(360 - ball.getAngle());
+                    } else if (compassDirection.equals("WEST") || compassDirection.equals("EAST")) {
+                        State.setState(new MenuState(handler));
                     }
                 } else if (collider.equals(leftPaddle) || collider.equals(rightPaddle)) {
                     if (compassDirection.equals("NORTH")) {
@@ -70,7 +102,7 @@ public class GameState extends State{
         collisionDetector.addGameObject(ball);
         collisionDetector.addGameObject(leftPaddle);
         collisionDetector.addGameObject(rightPaddle);
-        //collisionDetector.addGameObject(topBoundry);
+
     }
 
 

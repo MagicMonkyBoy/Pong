@@ -38,6 +38,13 @@ public class CollisionDetector {
                     if (go1.bounds.y + go1.bounds.height > handler.getHeight()) {
                         collisionListener.collision(go1, "SOUTH");
                     }
+                    if (go1.bounds.x < 0) {
+                        //System.out.println("YAYAYAYAYYA");
+                        collisionListener.collision(go1, "WEST");
+                    }
+                    if (go1.bounds.x + go1.bounds.width > handler.getWidth()) {
+                        collisionListener.collision(go1, "EAST");
+                    }
 
                 } catch (NullPointerException e) {
                     e.printStackTrace();
