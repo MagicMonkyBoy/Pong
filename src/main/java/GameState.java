@@ -8,7 +8,7 @@ public class GameState extends State{
     private CollisionDetector collisionDetector;
     private InvisableColliders topBoundry, bottomBoundry;
 
-    public GameState (Handler handler) {
+    public GameState (final Handler handler) {
         super(handler);
         gameObjectManager = new GameObjectManager(handler);
         handler.getGame().getMouseManager().setGameObjectManager(gameObjectManager);
@@ -23,7 +23,7 @@ public class GameState extends State{
         gameObjectManager.addGameObject(leftPaddle);
 
 
-        rightPaddle = new Paddle(handler.getWidth() - 30, handler.getHeight() / 2, 80, 120, handler, new MouseMoveListener() {
+        rightPaddle = new Paddle(handler.getWidth() - 30, handler.getHeight() / 2, 20, 120, handler, new MouseMoveListener() {
             public void move(int x, int y) {
                 rightPaddle.setY(y);
             }
@@ -36,8 +36,8 @@ public class GameState extends State{
         ball.setColor(Color.white);
         gameObjectManager.addGameObject(ball);
 
-        topBoundry = new InvisableColliders(0, -1, handler.getWidth(), 1, handler, this);
-        gameObjectManager.addGameObject(topBoundry);
+//        topBoundry = new InvisableColliders(0, -1, handler.getWidth(), 1, handler, this);
+//        gameObjectManager.addGameObject(topBoundry);
 
         collisionDetector = new CollisionDetector(handler, new CollisionListener() {
             public void collision(GameObjects collider, GameObjects collidee) {
@@ -49,7 +49,24 @@ public class GameState extends State{
                     ball.setAngle(180 - ball.getAngle());
                 }
             }
+
+            public void collision(GameObjects collider, String compassDirection) {
+                //System.out.println("OFF SCREEN");
+                if (collider.equals(ball)) {
+                    if (compassDirection.equals("NORTH") || compassDirection.equals("SOUTH")) {
+                        ball.setAngle(360 - ball.getAngle());
+                    }
+                } else if (collider.equals(leftPaddle) || collider.equals(rightPaddle)) {
+                    if (compassDirection.equals("NORTH")) {
+                        collider.setY(0);
+                    } else if (compassDirection.equals("SOUTH")) {
+                        collider.setY(handler.getHeight() - collider.getHeight());
+                    }
+                }
+
+            }
         });
+        collisionDetector.setOffScreenBounds();
         collisionDetector.addGameObject(ball);
         collisionDetector.addGameObject(leftPaddle);
         collisionDetector.addGameObject(rightPaddle);
