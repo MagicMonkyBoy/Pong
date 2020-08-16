@@ -16,7 +16,6 @@ class Game implements Runnable {
     private Graphics g;
 
     public MenuState menuState;
-    public GameState gameState;
 
     private MouseManager mouseManager;
 

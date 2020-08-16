@@ -6,6 +6,7 @@ public class MenuState extends State {
 
     TextButton startButton;
     TextButton exitButton;
+    GameState gameState;
 
     public MenuState(final Handler handler) {
         super(handler);
@@ -16,7 +17,9 @@ public class MenuState extends State {
         startButton =  new TextButton(handler.getWidth()/2 - 100, handler.getHeight()/2 - 50, 200, 50, handler, Color.WHITE, new ClickListener() {
             public void onClick() {
                 System.out.println("HELLO button works");
-                State.setState(new GameState(handler));
+                gameState = null;
+                gameState = new GameState(handler);
+                State.setState(gameState);
             }
         }, this);
         startButton.setText("Start", Color.BLACK);

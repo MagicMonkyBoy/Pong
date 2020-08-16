@@ -1,10 +1,12 @@
 import java.awt.*;
+import java.util.Random;
 
 public class GameState extends State{
 
     private GameObjectManager gameObjectManager;
     private Paddle leftPaddle, rightPaddle;
     private Ball ball;
+    private Coin coin;
     private CollisionDetector collisionDetector;
     private float maxAngle = 180; // IN DEGREES
 
@@ -32,12 +34,15 @@ public class GameState extends State{
         gameObjectManager.addGameObject(rightPaddle);
 
 
-        ball = new Ball(handler.getWidth()/2 - 10, handler.getHeight()/2 - 10, 20, 20, handler, this, 10, 1);
+        ball = new Ball(handler.getWidth()/2 - 10, handler.getHeight()/2 - 10, 20, 20, handler, this, 10, 0);
         ball.setColor(Color.white);
         gameObjectManager.addGameObject(ball);
 
-//        topBoundry = new InvisableColliders(0, -1, handler.getWidth(), 1, handler, this);
-//        gameObjectManager.addGameObject(topBoundry);
+        Random random = new Random();
+        coin = new Coin(handler.getWidth()/2 - 10, random.nextInt(handler.getHeight() - 20), 20, 20, handler, this);
+        coin.setColor(Color.yellow);
+        gameObjectManager.addGameObject(coin);
+
 
         collisionDetector = new CollisionDetector(handler, new CollisionListener() {
 
@@ -77,6 +82,11 @@ public class GameState extends State{
                     }
                     //ball.setAngle(180 - ball.getAngle());
                 }
+
+                if (collider.equals(ball) && collidee.equals(coin)) {
+                    Random random = new Random();
+                    coin.setY(random.nextInt(handler.getHeight() - coin.getHeight()));
+                }
             }
 
             //OUT OF SCREEN
@@ -86,7 +96,7 @@ public class GameState extends State{
                     if (compassDirection.equals("NORTH") || compassDirection.equals("SOUTH")) {
                         ball.setAngle(360 - ball.getAngle());
                     } else if (compassDirection.equals("WEST") || compassDirection.equals("EAST")) {
-                        State.setState(new MenuState(handler));
+                        State.setState(handler.getGame().menuState);
                     }
                 } else if (collider.equals(leftPaddle) || collider.equals(rightPaddle)) {
                     if (compassDirection.equals("NORTH")) {
@@ -102,6 +112,7 @@ public class GameState extends State{
         collisionDetector.addGameObject(ball);
         collisionDetector.addGameObject(leftPaddle);
         collisionDetector.addGameObject(rightPaddle);
+        collisionDetector.addGameObject(coin);
 
     }
 
