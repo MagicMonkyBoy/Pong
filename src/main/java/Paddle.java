@@ -25,8 +25,8 @@ public class Paddle extends GameObjects {
         g.setColor(color);
         g.fillRect((int)x, (int)y, width, height);
 
-        g.setColor(Color.RED);
-        g.drawRect((int)x, (int)y, width, height);
+//        g.setColor(Color.RED);
+//        g.drawRect((int)x, (int)y, width, height);
     }
 
     public void onMouseMove(MouseEvent e) {

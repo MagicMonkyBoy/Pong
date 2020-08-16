@@ -42,8 +42,8 @@ public class Ball extends GameObjects {
         }
         g.fillOval((int) x, (int) y, width, height);
 
-        g.setColor(Color.RED);
-        g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+//        g.setColor(Color.RED);
+//        g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 
     }
 

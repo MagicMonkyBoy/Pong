@@ -4,16 +4,21 @@ import java.util.Random;
 public class GameState extends State{
 
     private GameObjectManager gameObjectManager;
+    private UIManager uiManager;
     private Paddle leftPaddle, rightPaddle;
     private Ball ball;
     private Coin coin;
+    private Text scoreCounter;
     private CollisionDetector collisionDetector;
     private float maxAngle = 180; // IN DEGREES
+    private int score = 0;
 
     public GameState (final Handler handler) {
         super(handler);
         gameObjectManager = new GameObjectManager(handler);
         handler.getGame().getMouseManager().setGameObjectManager(gameObjectManager);
+
+        uiManager = new UIManager(handler);
 
 
         leftPaddle = new Paddle(10, handler.getHeight() / 2, 20, 120, handler, new MouseMoveListener() {
@@ -34,7 +39,7 @@ public class GameState extends State{
         gameObjectManager.addGameObject(rightPaddle);
 
 
-        ball = new Ball(handler.getWidth()/2 - 10, handler.getHeight()/2 - 10, 20, 20, handler, this, 10, 0);
+        ball = new Ball(handler.getWidth()/2 - 10, handler.getHeight()/2 - 10, 20, 20, handler, this, 15, 0);
         ball.setColor(Color.white);
         gameObjectManager.addGameObject(ball);
 
@@ -43,6 +48,9 @@ public class GameState extends State{
         coin.setColor(Color.yellow);
         gameObjectManager.addGameObject(coin);
 
+        scoreCounter = new Text(handler.getWidth()/2, 10, 20, 20, handler, Color.WHITE, "0", State.getState());
+
+        uiManager.addObject(scoreCounter);
 
         collisionDetector = new CollisionDetector(handler, new CollisionListener() {
 
@@ -86,7 +94,15 @@ public class GameState extends State{
                 if (collider.equals(ball) && collidee.equals(coin)) {
                     Random random = new Random();
                     coin.setY(random.nextInt(handler.getHeight() - coin.getHeight()));
+                    score++;
+                    scoreCounter.setText(score+"");
                 }
+
+
+
+
+
+
             }
 
             //OUT OF SCREEN
@@ -121,11 +137,13 @@ public class GameState extends State{
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
         gameObjectManager.render(g);
+        uiManager.render(g);
     }
 
     public void tick() {
         gameObjectManager.tick();
         collisionDetector.tick();
+        uiManager.tick();
     }
 
     public GameObjectManager getGameObjectManager() {
